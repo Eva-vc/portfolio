@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Build brief</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ffffff;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#111111}
+h2{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:34px;line-height:1.15;margin:0}
+p{margin:0;font-size:17px;line-height:1.6}
+li{font-size:17px;line-height:1.55;margin:0 0 10px 0}
+ol,ul{margin:0;padding-left:22px}
+code{font-family:'JetBrains Mono',monospace;font-size:14px;background:#f4f1ec;padding:1px 6px;border-radius:3px}
+pre{margin:0;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.6;white-space:pre-wrap}
+a{color:#b8006f}
+</style>
+</helmet>
+<div style="width: 1200px; height: 4700px; box-sizing: border-box; padding: 88px 100px 100px 100px; display: flex; flex-direction: column; gap: 72px; background: #ffffff; color: #111111; overflow: hidden;">
+
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #b8006f; font-weight: 600;">Brief for Claude Code</div>
+<h1 style="margin: 0; font-family: 'Newsreader', Georgia, serif; font-weight: 400; font-size: 68px; line-height: 1.02; letter-spacing: -0.01em;">Art portfolio with slides that slide over each other</h1>
+<p style="max-width: 820px; color: #55534f; font-size: 19px;">Read top to bottom before writing any code. The artboards next to this one show the target: <b>Overview</b> (the home page: scroll it, then click an artwork), <b>Detail</b> (click Next / Prev and watch the layering) and <b>Stack diagram</b> (right vs. wrong).</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 22px; border-top: 1px solid #111111; padding-top: 28px;">
+<h2>1 · The goal in two sentences</h2>
+<p>Build a minimal art-portfolio website that looks and feels like <a href="https://giannantoniodemalde.com/">giannantoniodemalde.com</a>: white ground, the artwork as the only hero, quiet typography, restrained micro-interactions.</p>
+<p><b>One deliberate difference:</b> on an artwork's detail view, the slides must NOT travel sideways together like a carousel. They are stacked layers: the next slide slides in <b>over</b> the current one, and the current one stays perfectly still underneath.</p>
+<p><b>The other signature element:</b> a fixed text label at the middle left of the screen. It never moves with the scroll or the slides; when the artwork in focus changes, its text rolls upward to the new value in place. The same label, in the same spot, is on the home page and on the project page.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 22px; border-top: 1px solid #111111; padding-top: 28px;">
+<h2>2 · Style to copy from the reference</h2>
+<p><b>Do this first:</b> open the live site in a browser and inspect it with DevTools. I could only read a text summary of it, so the exact font families, sizes, spacing and easing values below are <b>not verified</b>. Write down the real computed values (font-family, font-size, letter-spacing, paddings, transition durations and easings) into a small tokens file (CSS custom properties) and use those. Do not guess them.</p>
+<p>What is known about the reference:</p>
+<ul>
+<li><b>Ground and colour.</b> White <code>#ffffff</code> page, near-black text. One accent, a hot magenta <code>#de0086</code>, used sparingly (progress bar, hover, active states). No other colours; the artwork brings the colour.</li>
+<li><b>Attitude.</b> The designer's own words: typography, whitespace and micro-interactions all exist to highlight the work, and the look should be "elegant five years ago and still elegant in five years". So: no trendy effects, no gradients, no drop-shadow cards, no rounded pill buttons.</li>
+<li><b>Structure.</b> Intro animation (feels like a book cover or exhibition poster) leads to the home page, a vertical scroll of artworks (section 3), which leads to a project page made of slides (section 4). Header is minimal: a home link and a "Bio" toggle. Prev / Next moves between projects.</li>
+<li><b>Slider progress bar.</b> A thin progress bar under the slider that doubles as a drag scrubber. Keep this.</li>
+<li><b>Overview and Bio transitions.</b> They evoke paint or tempera spreading over a canvas: an organic reveal that grows from an edge. Reproduce it if you can with a <code>clip-path</code> or mask animation; inspect how the reference does it.</li>
+<li><b>Content.</b> Do not copy the artist's images, texts, name or logo. Use clearly labelled placeholders such as [Artist name], [Project title] and [Artwork image].</li>
+</ul>
+<p>Type direction used in my mockups (replace with the verified values from step 1): a refined serif (Newsreader) for titles, a small quiet grotesk (Hanken Grotesk) in uppercase with wide tracking for labels and counters.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 22px; border-top: 1px solid #111111; padding-top: 28px;">
+<h2>3 · Home page and the fixed roll-text label</h2>
+<p>This replaces any grid or thumbnail overview. See the <b>Overview</b> artboard: scroll it, and click an artwork to open <b>Detail</b>.</p>
+<ol>
+<li><b>Home is one long vertical scroll.</b> One artwork per project, centred horizontally, stacked top to bottom with generous white space between them (mockup: artwork 500 by 620 px, 160 px gap, on a 1440 by 900 screen). Normal free scrolling with the scrollbar hidden; a soft <code>scroll-snap-type: y proximity</code> is optional. Add top and bottom padding so the first and last artwork can also reach the vertical centre.</li>
+<li><b>One fixed text label.</b> A single element with <code>position: fixed</code>, vertically centred (<code>top: 50%</code> and <code>translateY(-50%)</code>) and placed at the left (mockup: <code>left: 96px</code>). It has a large serif title (mockup: 68 px) and a small uppercase meta line beneath it (year and medium). It is wide enough that its right end overlaps the artwork's left edge slightly (mockup: about 100 px). It sits above the artwork (<code>z-index</code>) and has <code>pointer-events: none</code> so clicks and wheel events go through to the artwork.</li>
+<li><b>It does not move when the page scrolls.</b> The text stays exactly where it is while the artworks pass behind it.</li>
+<li><b>Active artwork.</b> The artwork whose centre is closest to the vertical centre of the viewport is the active one. Use an <code>IntersectionObserver</code> with <code>rootMargin: '-50% 0px -50% 0px'</code> (a zero-height band at the centre), or compute <code>round(scrollTop / pitch)</code>.</li>
+<li><b>The text rolls upward to the new value.</b> When the active artwork changes, the old text does not fade or jump: it scrolls up and out while the new text scrolls up into the same spot, like a slot-machine reel. Build it as a reel: a column holding every value, each in a line box of a fixed height, inside a wrapper with the height of one line and <code>overflow: hidden</code>. Set the column to <code>translateY(-index * lineHeight)</code> with <code>700ms cubic-bezier(.76, 0, .24, 1)</code>. Scrolling down rolls the text up, and scrolling back up rolls it back down, for free, because the position is just a function of the index.</li>
+<li><b>Title and meta line roll together</b>, each in its own reel, with the same index and the same timing. Nice option: stagger the characters by 15 ms.</li>
+<li><b>Fast scrolling</b> just retargets the index; the reel spins through the values in between. No queue, no lock.</li>
+<li><b>Legibility over artwork.</b> Where the label overlaps the artwork, white text with <code>mix-blend-mode: difference</code> keeps it readable on any image (it also reads as black on the white page). Check the reference; if it uses plain dark text, do that instead.</li>
+<li><b>Click an artwork</b> to open its project page. The label must feel like the same element carrying over: same position, same size, same typography, and on arrival it already shows that project's value. Best: keep it as one persistent component across both routes (or use the View Transitions API with a shared <code>view-transition-name</code>). In my mockups the two screens are separate artboards, so this continuity is only illustrated.</li>
+<li><b>On the project page,</b> the label sits above all slide layers (higher <code>z-index</code> than the slides, below the header and controls) and does not slide with them. Each slide may carry its own text. When the slide changes and the text differs from the current one, the label rolls exactly as on the home page. When the next slide has the same text, nothing animates.</li>
+</ol>
+<p>Data model that supports this (per project):</p>
+<div style="background: #f4f1ec; border-radius: 4px; padding: 28px 32px;">
+<pre>project = {
+  title: '[Project one]',
+  meta:  '[Year] · [Medium]',
+  slides: [
+    { image: '...' },                                  /* inherits the project text */
+    { image: '...' },                                  /* still the same text: no roll */
+    { image: '...', text: '[Detail title A]', meta: '[Year] · [Medium] · [Size]' },
+    { image: '...' }                                   /* inherits [Detail title A] */
+  ]
+}
+/* label value for slide i = the last slide at or before i that has its own text,
+   else the project title. Build the reel from the distinct consecutive values. */</pre>
+<pre>/* CSS */
+.label { position: fixed; left: 96px; top: 50%; transform: translateY(-50%);
+         z-index: 90; pointer-events: none; color: #fff; mix-blend-mode: difference; }
+.reel        { height: 76px; overflow: hidden; }
+.reel-track  { display: flex; flex-direction: column;
+               transition: transform 700ms cubic-bezier(.76, 0, .24, 1); }
+.reel-item   { height: 76px; line-height: 76px; font-size: 68px; white-space: nowrap; }</pre>
+<pre>/* JS: home page */
+const track = document.querySelector('.reel-track');
+function setLabel(i) { track.style.transform = 'translateY(' + (-i * 76) + 'px)'; }
+
+const io = new IntersectionObserver((entries) =&gt; {
+  entries.forEach((e) =&gt; { if (e.isIntersecting) setLabel(Number(e.target.dataset.i)); });
+}, { rootMargin: '-50% 0px -50% 0px' });
+document.querySelectorAll('.artwork').forEach((el) =&gt; io.observe(el));</pre>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 22px; border-top: 1px solid #111111; padding-top: 28px;">
+<h2>4 · The slide-over behaviour: exact rules</h2>
+<ol>
+<li><b>Layers, not a track.</b> All slides of a project sit in ONE container as <code>position: absolute; inset: 0</code> layers of identical size, in DOM order 1 to N. Slide k always has a higher <code>z-index</code> than slide k-1 (<code>z-index = k</code>). Never translate a wrapper that holds all slides; that is the carousel look we do not want.</li>
+<li><b>Only the incoming slide moves.</b> Going forward from k to k+1: slide k+1 animates from <code>translateX(100%)</code> to <code>0</code>, on top of slide k. Slide k does not move, fade, scale or dim. (Optional lever <code>PARALLAX</code>, 0 to 15 percent, default <b>0</b>: slide k may drift left by that amount. Keep it at 0 unless asked.)</li>
+<li><b>Going back is the exact reverse.</b> From k to k-1: the current top slide k slides back out to the right (<code>0</code> to <code>100%</code>), uncovering slide k-1, which has been sitting untouched underneath. Never animate slide k-1.</li>
+<li><b>Position is a pure function of state.</b> One number, <code>current</code>. Slide i is at <code>0</code> if i is less than or equal to current, and at <code>100%</code> if i is greater than current. That is all.</li>
+<li><b>Timing.</b> Start with <code>800ms cubic-bezier(.76, 0, .24, 1)</code>, then match the pace of the reference after inspecting it. Animate <code>transform</code> only (GPU friendly, <code>will-change: transform</code>). Give the incoming slide a faint edge shadow on its leading side, <code>box-shadow: -24px 0 60px rgba(0,0,0,.08)</code>, so the overlap reads as layering.</li>
+<li><b>Interruptible.</b> No animation lock and no queue. If the user clicks Next twice quickly, just retarget <code>current</code>; the CSS transition handles the rest.</li>
+<li><b>Jumping.</b> Clicking a progress-bar segment from slide 2 to slide 6 sets <code>current = 6</code> directly. Slides 3 to 6 all get their new position at once; z-order means slide 6 arrives on top. Do not step through the slides in between.</li>
+<li><b>Scrubbing (drag on the progress bar).</b> Use a fractional progress p from 0 to N-1 and give slide i the offset <code>100 * clamp(i - p, 0, 1)</code> percent, with transitions switched off while dragging. On release, snap to <code>round(p)</code> and switch transitions back on. Same formula, so the drag feels identical to the click animation.</li>
+<li><b>Inputs.</b> Next / Prev buttons, ArrowLeft and ArrowRight, swipe on touch, horizontal trackpad scroll (debounced), progress-bar click and drag. Counter reads like <code>02 / 08</code>.</li>
+<li><b>Artwork rendering.</b> <code>object-fit: contain</code>, centred, never cropped or stretched. Caption (title, year, medium) bottom-left inside the slide. Slide backgrounds are white like the reference; my mockup tints them slightly only so the layering is visible on screen.</li>
+<li><b>Accessibility and performance.</b> Each slide is an <code>article</code> with <code>aria-roledescription="slide"</code> and <code>aria-label="2 of 8"</code>. Slides that are not current get <code>inert</code> once their transition ends. Prefetch the next image. Under <code>prefers-reduced-motion</code>, replace the slide with a 200ms crossfade. Use <code>100dvh</code> on mobile.</li>
+</ol>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 22px; border-top: 1px solid #111111; padding-top: 28px;">
+<h2>5 · Reference snippets (framework-agnostic)</h2>
+<div style="background: #f4f1ec; border-radius: 4px; padding: 28px 32px; display: flex; flex-direction: column; gap: 20px;">
+<pre>/* CSS */
+.viewer { position: relative; overflow: hidden; height: 100dvh; }
+.slide  { position: absolute; inset: 0; background: #fff;
+          transform: translate3d(100%, 0, 0);
+          transition: transform 800ms cubic-bezier(.76, 0, .24, 1);
+          box-shadow: -24px 0 60px rgba(0, 0, 0, .08);
+          will-change: transform; }
+.slide.is-current,
+.slide.is-past   { transform: translate3d(0, 0, 0); }
+.slide.is-future { transform: translate3d(100%, 0, 0); }</pre>
+<pre>/* JS */
+const slides = [...document.querySelectorAll('.slide')];
+let current = 0;
+
+function go(next) {
+  current = Math.max(0, Math.min(slides.length - 1, next));
+  slides.forEach((el, i) =&gt; {
+    el.style.zIndex = i + 1;                       /* later slide is always on top */
+    el.classList.toggle('is-future',  i &gt; current);
+    el.classList.toggle('is-current', i === current);
+    el.classList.toggle('is-past',    i &lt; current);
+    el.inert = i !== current;
+  });
+}
+go(0);</pre>
+</div>
+<p>Note what is absent: there is no wrapper <code>transform</code>, no <code>left</code> / <code>margin</code> animation, and no transition on the outgoing slide.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 22px; border-top: 1px solid #111111; padding-top: 28px;">
+<h2>6 · Acceptance checks</h2>
+<ul>
+<li>Press Next and freeze a frame mid-animation: the old slide's artwork is still at its original pixel position, and the new slide covers it from the right edge.</li>
+<li>Press Prev: the top slide leaves to the right and the slide beneath is already in place, never moving.</li>
+<li>Ten fast clicks on Next never leave a half-way slide or a stuck state.</li>
+<li>Clicking the last progress segment from the first slide shows only the last slide arriving over the rest.</li>
+<li>Dragging the progress bar scrubs the overlap smoothly and snaps to a whole slide on release.</li>
+<li>Home: scrolling never moves the label. When the next artwork reaches the vertical centre, the label rolls up to its value; scrolling back up rolls it back down.</li>
+<li>Project page: the label is in the same spot with the same value on arrival, stays put while slides cover each other, and only rolls when a slide carries a different text.</li>
+<li>Only <code>transform</code> animates; no layout shift; no horizontal page scrollbar; reduced-motion users get a crossfade.</li>
+</ul>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":4700}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

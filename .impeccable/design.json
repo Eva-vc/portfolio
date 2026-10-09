@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-20T00:00:00.000Z",
+  "title": "Design System: Art Portfolio — The Fixed Label",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Reference Paper",
+        "canonical": "#f1f1f1",
+        "provenance": "VERIFIED — giannantoniodemalde.com, html { background-color: #f1f1f1 }",
+        "tonalRamp": [
+          "#262625",
+          "#3d3d3b",
+          "#5c5c59",
+          "#7d7d7a",
+          "#9e9e9b",
+          "#c0c0bd",
+          "#f1f1f1",
+          "#fbfbfa"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Reference Ink",
+        "canonical": "#1d1d1b",
+        "provenance": "VERIFIED — the reference's own brand ink",
+        "tonalRamp": [
+          "#0e0e0d",
+          "#1d1d1b",
+          "#333330",
+          "#4f4f4b",
+          "#6f6f6a",
+          "#96968f",
+          "#c3c3bd",
+          "#eaeae6"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink at Reading Strength",
+        "canonical": "rgba(29, 29, 27, 0.68)",
+        "purpose": "Secondary text. 5.4:1 on paper.",
+        "tonalRamp": [
+          "#1d1d1b",
+          "#3a3a37",
+          "#565653",
+          "#6e6e6a",
+          "#8c8c87",
+          "#adada8",
+          "#cfcfca",
+          "#ececE8"
+        ]
+      },
+      "ink-faint": {
+        "role": "neutral",
+        "displayName": "Ink at Rest",
+        "canonical": "rgba(29, 29, 27, 0.32)",
+        "purpose": "Inert marks and spent chrome only — never body text.",
+        "tonalRamp": [
+          "#1d1d1b",
+          "#474744",
+          "#6b6b67",
+          "#8a8a85",
+          "#a5a5a0",
+          "#bfbfba",
+          "#d8d8d3",
+          "#f0f0ec"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(29, 29, 27, 0.16)",
+        "purpose": "The only divider weight in the system, always at 1px.",
+        "tonalRamp": [
+          "#1d1d1b",
+          "#4c4c49",
+          "#71716d",
+          "#90908b",
+          "#aaaaa5",
+          "#c5c5c0",
+          "#dedeD9",
+          "#f3f3ef"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The fixed label's title when a value has no supplied artwork. Nothing else. Leading 0.8 so two title lines read as one block.",
+        "status": "Newsreader is a placeholder stand-in for the licensed Tiempos Headline Light."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The artist name in the header — the only serif in the chrome."
+      },
+      "title": {
+        "displayName": "Panel Lead",
+        "purpose": "The opening paragraph of an info panel, one step above body, in the serif."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Info panel prose and contact values. Measure capped at 62ch, tracking explicitly zeroed.",
+        "status": "Hanken Grotesk is a placeholder stand-in for the licensed ABC Diatype."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "The document default: nav, counters, Prev/Next, row labels, panel markers, label captions. Sentence case, 0.04rem tracking, never uppercase. Counters add tabular numerals."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "settle",
+        "value": "cubic-bezier(0.19, 1, 0.22, 1)",
+        "gsap": "expo.out",
+        "purpose": "VERIFIED — the reference's one settle curve, 37 uses. Arrivals, prose rise/lift, colour crossfades (0.45s nav, 0.5s underline strength, 0.6s image hover)."
+      },
+      {
+        "name": "sweep",
+        "value": "cubic-bezier(0.77, 0, 0.175, 1) at 0.7s",
+        "purpose": "VERIFIED — the link underline only. In from the left, out to the right."
+      },
+      {
+        "name": "slide",
+        "value": "cubic-bezier(0.76, 0, 0.24, 1) at 0.8s",
+        "gsap": "power3.inOut",
+        "purpose": "The page row. Page i sits max(i - position, 0) pages right of the pile; CSS multiplies that count by --work-width + --page-gap. Landed pages never move again."
+      },
+      {
+        "name": "wash",
+        "value": "clip-path: ellipse(calc(var(--wash) * 170%) 150% at -14% 50%), 1.1s expo.out, --wash registered via @property as <number>",
+        "purpose": "The Overview↔Bio transition. An ellipse anchored off the left edge grows across the panel so the reveal front is curved — tempera spreading over a canvas rather than a wipe. The outgoing panel holds at full strength for 1.15s and then drops in 0.2s, so there is never a beat of empty paper between panels."
+      },
+      {
+        "name": "reduced-motion-gate",
+        "value": "dur()/step() in src/motion.ts return 0 under prefers-reduced-motion; CSS collapses transition/animation to 0.001ms",
+        "purpose": "One place decides how much the site moves. GSAP still writes every final value, so nothing can be stranded half-revealed. The project stack cross-fades in place at 0.2s instead of travelling, and no seam is drawn."
+      },
+      {
+        "name": "roll-recorded-not-shipped",
+        "value": "reference title roll 1s / caption roll 0.5s; BRIEF.md §3.5 reel at 700ms cubic-bezier(.76,0,.24,1)",
+        "purpose": "Recorded in tokens.css and deliberately not shipped: the label is supplied as artwork and the user's call is that it changes without animating. Restoring it means tweening between the stacked slots."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "860px",
+        "purpose": "The narrow bargain: root switches to clamp(9px, 2.6vw, 11px), gutter 3rem, and the bottom 170px band belongs to the label outright."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Sweep Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "The one interactive primitive: text with a 1px underline that sweeps in from the left and leaves to the right.",
+      "html": "<a class=\"ds-link\" href=\"#\"><span>Overview</span></a>",
+      "css": ".ds-link { font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: clamp(10px, 1.2rem, 12px); line-height: 1.2; letter-spacing: 0.04rem; color: rgba(29,29,27,0.68); text-decoration: none; cursor: pointer; transition: color 0.45s cubic-bezier(0.19,1,0.22,1); } .ds-link > span { position: relative; display: inline-block; } .ds-link > span::after { content: ''; position: absolute; left: 0; bottom: -0.25em; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: 100% 50%; transition: transform 0.7s cubic-bezier(0.77,0,0.175,1); } .ds-link:hover, .ds-link:focus-visible { color: #1d1d1b; } .ds-link:hover > span::after, .ds-link:focus-visible > span::after { transform: scaleX(1); transform-origin: 0 50%; } .ds-link:focus-visible { outline: 1px solid #1d1d1b; outline-offset: 5px; }"
+    },
+    {
+      "name": "Current Nav Item",
+      "kind": "nav",
+      "refersTo": "nav-link-current",
+      "description": "Where you are is set in full ink; where you could go is set back.",
+      "html": "<a class=\"ds-link-current\" href=\"#\" aria-current=\"page\"><span>Bio</span></a>",
+      "css": ".ds-link-current { font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: clamp(10px, 1.2rem, 12px); letter-spacing: 0.04rem; color: #1d1d1b; text-decoration: none; } .ds-link-current > span { position: relative; display: inline-block; } .ds-link-current > span::after { content: ''; position: absolute; left: 0; bottom: -0.25em; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: 100% 50%; transition: transform 0.7s cubic-bezier(0.77,0,0.175,1); } .ds-link-current:hover > span::after { transform: scaleX(1); transform-origin: 0 50%; }"
+    },
+    {
+      "name": "Disabled Step",
+      "kind": "button",
+      "refersTo": "nav-link-disabled",
+      "description": "Prev at the first slide: ink at rest, default cursor, underline removed entirely.",
+      "html": "<button class=\"ds-step-disabled\" disabled><span>Prev</span></button>",
+      "css": ".ds-step-disabled { background: none; border: 0; padding: 0; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: clamp(10px, 1.2rem, 12px); letter-spacing: 0.04rem; color: rgba(29,29,27,0.32); cursor: default; }"
+    },
+    {
+      "name": "Site Header",
+      "kind": "nav",
+      "refersTo": "header",
+      "description": "One hairline of text along the top, mounted once and never remounted: serif name left, the two places there are to be at right.",
+      "html": "<header class=\"ds-header\"><h1 class=\"ds-header-name\"><a class=\"ds-link-current\" href=\"#\"><span>[Artist name]</span></a></h1><nav class=\"ds-header-nav\"><a class=\"ds-link-current\" href=\"#\"><span>Overview</span></a><a class=\"ds-link\" href=\"#\"><span>Bio</span></a></nav></header>",
+      "css": ".ds-header { display: flex; justify-content: space-between; align-items: baseline; gap: 2rem; padding: 4.4rem 9rem; background: #f1f1f1; } .ds-header-name { font-family: 'Newsreader', 'Times New Roman', Georgia, serif; font-size: clamp(16px, 2.2rem, 22px); font-weight: 300; letter-spacing: 0; margin: 0; } .ds-header-nav { display: flex; align-items: baseline; gap: 3.2rem; white-space: nowrap; }"
+    },
+    {
+      "name": "Hairline Counter",
+      "kind": "custom",
+      "refersTo": "counter",
+      "description": "Two-digit tabular numerals either side of a hairline. The reference stretches a hyphen with scaleX(7); this draws it as a rule so it matches every other line in the system.",
+      "html": "<p class=\"ds-counter\">01<span class=\"ds-counter-rule\"></span>03</p>",
+      "css": ".ds-counter { display: flex; align-items: center; margin: 0; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: clamp(10px, 1.2rem, 12px); letter-spacing: 0.04rem; font-variant-numeric: tabular-nums; color: rgba(29,29,27,0.68); } .ds-counter-rule { width: 2.2rem; min-width: 14px; height: 1px; margin: 0 0.9rem; background: currentColor; }"
+    },
+    {
+      "name": "Slide Progress Strip",
+      "kind": "custom",
+      "refersTo": "progress-segment",
+      "description": "A page of a work. Pages wait in a row to the right, visible, and each travels left onto the pile when its turn comes; a landed page never moves again. The page carries no ground and no shadow — it is its own artwork, so an opaque page (a PDF) hides what it lands on and a page with alpha does not.",
+      "html": "<div class=\"ds-strip\"><button class=\"ds-seg\" aria-current=\"true\"><span class=\"ds-track\"><span class=\"ds-fill\" style=\"transform: scaleX(1)\"></span></span></button><button class=\"ds-seg\"><span class=\"ds-track\"><span class=\"ds-fill\" style=\"transform: scaleX(0)\"></span></span></button><button class=\"ds-seg\"><span class=\"ds-track\"><span class=\"ds-fill\" style=\"transform: scaleX(0)\"></span></span></button></div>",
+      "css": ".ds-strip { display: flex; gap: 0.6rem; width: min(360px, 30vw); touch-action: none; } .ds-seg { flex: 1 1 0; height: 44px; display: flex; align-items: center; padding: 0; background: none; border: 0; cursor: pointer; } .ds-track { display: block; width: 100%; height: 1px; background: rgba(29,29,27,0.32); } .ds-seg:hover .ds-track { background: rgba(29,29,27,0.68); } .ds-fill { display: block; width: 100%; height: 100%; background: #1d1d1b; transform-origin: 0 50%; transition: transform 0.8s cubic-bezier(0.76,0,0.24,1); } .ds-seg:focus-visible { outline: 1px solid #1d1d1b; outline-offset: 5px; }"
+    },
+    {
+      "name": "The Fixed Label",
+      "kind": "custom",
+      "refersTo": "fixed-label",
+      "description": "The signature component: a 480:170 box bolted at left 10rem and vertically centred, holding supplied label artwork (or the site's own serif-over-caption as fallback). Every value is mounted at once; the current one is simply the one shown, which is why the change is instant. Its width is a measured relationship to the work's left edge via --work-width.",
+      "html": "<div class=\"ds-label\" aria-hidden=\"true\"><div class=\"ds-label-slot\"><span class=\"ds-label-title\"><span>[Project one]</span></span><span class=\"ds-label-meta\">[Year] · [Medium]</span></div></div>",
+      "css": ".ds-label { position: relative; width: max(30rem, calc((100vw - var(--work-width, 40vw)) / 2 + 10rem - 10rem)); aspect-ratio: 480 / 170; pointer-events: none; color: #1d1d1b; } .ds-label-slot { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 1.4rem; } .ds-label-title { font-family: 'Newsreader', 'Times New Roman', Georgia, serif; font-size: clamp(50px, 8rem, 80px); font-weight: 300; line-height: 0.8; letter-spacing: -0.01em; } .ds-label-title > span { display: block; } .ds-label-meta { font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: clamp(10px, 1.2rem, 12px); line-height: 1.2; letter-spacing: 0.04rem; }"
+    },
+    {
+      "name": "Slide Layer",
+      "kind": "card",
+      "refersTo": "slide",
+      "description": "A page of a work. Pages wait in a row to the right, visible, and each travels left onto the pile when its turn comes; a landed page never moves again. The page carries no ground and no shadow — it is its own artwork, so an opaque page (a PDF) hides what it lands on and a page with alpha does not.",
+      "html": "<div class=\"ds-slide\" style=\"--edge: 1\"><img class=\"ds-slide-img\" alt=\"\" src=\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 620'><rect width='500' height='620' fill='%238b5a42'/></svg>\" /></div>",
+      "css": ".ds-slide { position: relative; display: grid; place-items: center; padding: 24px; will-change: transform; } .ds-slide::before { content: ''; position: absolute; top: 0; bottom: 0; right: 100%; width: 60px; background: linear-gradient(to left, rgba(0,0,0,0.08), rgba(0,0,0,0)); opacity: var(--edge, 0); pointer-events: none; } .ds-slide-img { display: block; height: 220px; width: auto; max-width: min(46vw, 620px); object-fit: contain; }"
+    },
+    {
+      "name": "Contact Row",
+      "kind": "custom",
+      "refersTo": "info-row",
+      "description": "Hairline-ruled definition rows. A value you can act on carries its underline already drawn at 40% and reaches full strength on hover; a value you cannot is set at reading strength.",
+      "html": "<dl class=\"ds-rows\"><div class=\"ds-row\"><dt class=\"ds-row-label\">Email</dt><dd class=\"ds-row-value\"><a class=\"ds-row-link\" href=\"#\"><span>studio@example.com</span></a></dd></div><div class=\"ds-row\"><dt class=\"ds-row-label\">Instagram</dt><dd class=\"ds-row-value ds-row-value-plain\">@placeholder</dd></div></dl>",
+      "css": ".ds-rows { margin: 0; font-family: 'Hanken Grotesk', system-ui, sans-serif; } .ds-row { display: flex; align-items: baseline; gap: 2.4rem; padding: 1.4rem 0; border-bottom: 1px solid rgba(29,29,27,0.16); } .ds-row-label { flex: 0 0 10rem; min-width: 80px; font-size: clamp(10px, 1.2rem, 12px); letter-spacing: 0.04rem; color: rgba(29,29,27,0.68); } .ds-row-value { margin: 0; font-size: clamp(15px, 1.6rem, 17px); letter-spacing: 0; color: #1d1d1b; } .ds-row-value-plain { color: rgba(29,29,27,0.68); } .ds-row-link { color: inherit; text-decoration: none; } .ds-row-link > span { position: relative; display: inline-block; } .ds-row-link > span::after { content: ''; position: absolute; left: 0; bottom: -0.25em; width: 100%; height: 1px; background: currentColor; opacity: 0.4; transition: opacity 0.5s cubic-bezier(0.19,1,0.22,1); } .ds-row-link:hover > span::after, .ds-row-link:focus-visible > span::after { opacity: 1; }"
+    },
+    {
+      "name": "Info Panel Column",
+      "kind": "custom",
+      "refersTo": "info-row",
+      "description": "The writing hung like a work: a marker rule, a serif lead, then grotesk body capped at 62ch, sitting in the frame an artwork occupies.",
+      "html": "<div class=\"ds-info\"><p class=\"ds-info-marker\">Placeholder copy. Replace with the artist's own words.</p><p class=\"ds-info-lead\">This is where the artist speaks for the work: one short paragraph saying what the paintings are and how they come about.</p><p class=\"ds-info-block\">Two or three paragraphs follow, each shorter than it wants to be.</p></div>",
+      "css": ".ds-info { max-width: 62ch; background: #f1f1f1; } .ds-info-marker { margin: 0 0 2.4rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(29,29,27,0.16); font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: clamp(10px, 1.2rem, 12px); letter-spacing: 0.04rem; color: rgba(29,29,27,0.68); } .ds-info-lead { margin: 0 0 2.8rem; font-family: 'Newsreader', 'Times New Roman', Georgia, serif; font-size: clamp(19px, 2.4rem, 26px); font-weight: 300; line-height: 1.34; color: #1d1d1b; } .ds-info-block { margin: 0 0 1.8rem; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: clamp(15px, 1.6rem, 17px); line-height: 1.5; letter-spacing: 0; color: #1d1d1b; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Hung Room, Re-measured",
+    "overview": "This is a warm-grey room with one piece of furniture in it. The paper never changes, the ink never changes, and the only things that move are the works: they scroll past a label bolted to the left wall, or they deal over one another like prints laid on a table. Every visual decision is subtractive — there is no accent hue, no radius, no card, no container, and no shadow in the whole system, drawn on the leading edge of a sheet while it is actually travelling.\n\nAlmost every value here was measured, not chosen. The palette, the fluid root scale, the type metrics, the gutter, the label's anchor point, and the settle curve were read off the live reference giannantoniodemalde.com (its stylesheet /_astro/about.BojjPLFS.css plus inlined critical CSS) and recorded token by token in src/tokens.css, each one carrying the rule it came from. That provenance is the most load-bearing fact about this system: a future change that contradicts a VERIFIED comment is not a taste disagreement, it is a regression against a source. Two places where the original brief's unverified reading lost to the stylesheet are settled and confirmed with the user: the ground is warm grey, not white, and there is no magenta accent — nor any accent hue at all. Labels are sentence case, never uppercase and never wide-tracked.\n\nThe scale is the second mechanism. 1rem is a fraction of the viewport (clamp(7px, calc(100vw / 1920 * 10), 11px)), so the whole composition scales rather than reflows, and every size then carries its own px clamp so nothing collapses on a laptop. Emphasis is made only with opacity, scale and motion. A visitor who asks for reduced motion gets the same room with the travel taken out — GSAP still writes every final value, so nothing can be stranded half-revealed.",
+    "keyCharacteristics": [
+      "One paper ground, one ink and three opacities of it. No accent colour exists.",
+      "Fluid root font-size; every rem is a fraction of the viewport, every size individually clamped.",
+      "A serif display face over a small grotesk furniture face, both acknowledged stand-ins.",
+      "Square corners everywhere; 1px hairlines are the only dividers.",
+      "A fixed label whose width is a measured relationship to the work's edge, not a constant.",
+      "All animation is GSAP, routed through one reduced-motion gate.",
+      "No shadow anywhere; depth is real stacking and a visible row of waiting pages."
+    ],
+    "rules": [
+      {
+        "name": "The No Accent Rule",
+        "body": "There is no accent colour anywhere in this system, and adding one is a change to the world, not a styling decision. Emphasis is made with opacity, scale and motion. Audit test: if a screenshot contains a hue the artwork did not put there, it is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Opacities Rule",
+        "body": "Ink appears at exactly four strengths — full, 0.68, 0.32, 0.16 — and each has one job (primary, secondary, inert, divider). A fifth opacity is a new token and needs a reason no existing one serves.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Owns the Browser Rule",
+        "body": "Caret, selection, form accent and scrollbar are set to the system's own ink. Browser surfaces belong to the design too.",
+        "section": "colors"
+      },
+      {
+        "name": "The Sentence Case Rule",
+        "body": "Labels are sentence case with 0.04rem tracking. Never uppercase, never wide-tracked. This is verified from the reference (which sets no text-transform anywhere) and was chosen by the user over the mockups' uppercase-at-0.14em rendering.",
+        "section": "typography"
+      },
+      {
+        "name": "The Own-Clamp Rule",
+        "body": "Every type size carries its own px clamp on top of the fluid root. The root floor exists only to guard absurdly narrow desktop windows; raising it to force any single element wide is forbidden — it pins the scale flat across every real laptop and defeats the mechanism.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Faces Rule",
+        "body": "Serif names things; grotesk counts, labels and is read. There is no third face and no weight outside 300 (serif) and 400/500 (grotesk).",
+        "section": "typography"
+      },
+      {
+        "name": "The Label Never Moves Rule",
+        "body": "The label is fixed and is mounted once in the shell, outside the routes. It does not move on scroll, between slides, or across navigation — the value changes, the box does not. Route-boundary values are built to be identical on both sides so the crossing is invisible. Audit test: screenshot the label at the top and bottom of the gallery; the two must be pixel-identical in position.",
+        "section": "layout"
+      },
+      {
+        "name": "The Measured Tuck Rule",
+        "body": "Any dimension that expresses the relationship between two elements is measured and published as a custom property, never hard-coded to look right at one viewport.",
+        "section": "layout"
+      },
+      {
+        "name": "The No Shadow Rule",
+        "body": "Nothing in this system casts anything. Layering is shown by putting the pages where you can see them — a row to the right that stacks one by one — not by drawing an edge. A shadow appearing anywhere is a regression.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do treat src/tokens.css as the source of truth and keep every token's provenance comment. A value marked VERIFIED was read off the reference stylesheet; contradicting it is a regression, not a preference.",
+      "Do make emphasis with opacity, scale and motion — the four ink strengths, the display/label size jump, and the settle curve are the whole emphasis vocabulary.",
+      "Do route every animation through GSAP and through dur() / step() in src/motion.ts. Reduced motion collapses every duration to zero while GSAP still writes the final values, so nothing can be left half-revealed.",
+      "Do use the named curves for their named jobs: settle cubic-bezier(0.19, 1, 0.22, 1) (expo.out, the reference's one settle curve, 37 uses there) for arrivals and colour crossfades; sweep cubic-bezier(0.77, 0, 0.175, 1) at 0.7s for the link underline only; slide cubic-bezier(0.76, 0, 0.24, 1) (power3.inOut) at 0.8s for anything that travels as a sheet.",
+      "Do keep a slide's position a pure function of one number: slide i sits at 100 * clamp(i - position, 0, 1) percent. Whole positions give the layer stack, fractional ones give a scrub. That is why there is no animation lock and no queue — ten fast clicks just retarget it.",
+      "Do publish any two-element relationship as a measured custom property, the way --work-width is.",
+      "Do cap reading measure at 62ch and zero the tracking on body text.",
+      "Do keep placeholders visibly bracketed and leave site.placeholders true until real identity, copy and artwork arrive."
+    ],
+    "donts": [
+      "Don't introduce an accent colour. The brief's #de0086 and #ffffff were dropped on the user's explicit decision because the reference has neither.",
+      "Don't set any label uppercase or widen its tracking past 0.04rem.",
+      "Don't translate a wrapper that holds all the slides. Slides are layers; a shared track is the carousel look this build exists to refuse.",
+      "Don't animate the outgoing slide. Going forward, only the arriving sheet moves; going back, only the departing one does.",
+      "Don't raise the root font-size floor to make one element fit. That was tried, it pinned the fluid scale flat across every real laptop width, and the fix was to measure the relationship instead.",
+      "Don't crop an artwork. Fit-to-height with paper at the sides, always.",
+      "Don't let the label move — not on scroll, not between slides, not across routes. If a change makes it remount, the change is wrong.",
+      "Don't treat the two font families as decided; they are stand-ins for Tiempos Headline Light and ABC Diatype.",
+      "Don't put a shadow on anything, and don't give a page a ground of its own; the artwork is the page.",
+      "Don't move a page that has already landed. Only the waiting row travels."
+    ],
+    "placeholders": [
+      "Newsreader and Hanken Grotesk are free stand-ins for the licensed Tiempos Headline Light and ABC Diatype — a placeholder, not a commitment.",
+      "All bracketed copy ([Artist name], [Site title], [Project one], [Year] · [Medium], [Detail title A]) is placeholder and must never be treated as identity.",
+      "The label artwork in /public/labels and the artwork SVGs in /public/artworks are placeholders. Real label artwork must keep the 480:170 ratio, fill it to the right edge, and keep its first title line on the same baseline.",
+      "site.placeholders === true is what renders the 'placeholder copy' markers on the info surface; flipping it is the last step before publishing.",
+      "The user has asked for the label to be given its own coloured background; it does not have one yet. A mix-blend-mode: difference scheme was tried for this and rejected."
+    ]
+  }
+}

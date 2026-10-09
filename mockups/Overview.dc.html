@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ffffff;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#111111}
+a{color:#111111;text-decoration:none}
+a:hover{color:#de0086}
+.scroller{scrollbar-width:none}
+.scroller::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #111111;">
+
+<div class="scroller" onScroll="{{onScroll}}" style="position: absolute; top: 0; left: 0; width: 1440px; height: 900px; overflow-y: auto; overflow-x: hidden;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 160px; padding: 140px 0 140px 0;">
+<sc-for list="{{projects}}" as="p" hint-placeholder-count="10">
+<a href="Detail.dc.html" aria-label="{{ p.aria }}" style="display: flex; align-items: flex-end; box-sizing: border-box; padding: 18px; flex-shrink: 0; width: 500px; height: 620px; background: {{ p.tone }};">
+<span style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #ffffff; font-weight: 500;">[Artwork image]</span>
+</a>
+</sc-for>
+</div>
+</div>
+
+<div style="position: absolute; top: 0; left: 0; right: 0; z-index: 60; display: flex; justify-content: space-between; align-items: center; padding: 30px 48px; box-sizing: border-box;">
+<span style="font-family: 'Newsreader', Georgia, serif; font-size: 22px;">[Artist name]</span>
+<div style="display: flex; gap: 32px;">
+<span style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;">Overview</span>
+<span style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; color: #6b6963;">Bio</span>
+</div>
+</div>
+
+<div style="position: absolute; left: 96px; top: 450px; transform: translateY(-50%); z-index: 50; pointer-events: none; {{labelStyle}}">
+<div style="height: 76px; overflow: hidden;">
+<div style="{{titleTrack}}">
+<sc-for list="{{reel}}" as="r" hint-placeholder-count="3">
+<div style="height: 76px; line-height: 76px; font-family: 'Newsreader', Georgia, serif; font-size: 68px; letter-spacing: -0.01em; white-space: nowrap;">{{ r.text }}</div>
+</sc-for>
+</div>
+</div>
+<div style="height: 22px; overflow: hidden; margin-top: 10px;">
+<div style="{{metaTrack}}">
+<sc-for list="{{reel}}" as="r" hint-placeholder-count="3">
+<div style="height: 22px; line-height: 22px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; white-space: nowrap;">{{ r.meta }}</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; right: 48px; bottom: 36px; z-index: 60; font-size: 11px; letter-spacing: 0.14em; font-weight: 500;">{{counter}}</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"textMs":{"editor":"range","default":700,"min":200,"max":1600,"step":50,"unit":"ms","section":"Roll text"},"blend":{"editor":"boolean","default":true,"section":"Roll text"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const cur = (this.state && this.state.cur) || 0;
+const ms = Number(this.props.textMs ?? 700);
+const blend = this.props.blend ?? true;
+const ease = 'cubic-bezier(0.76, 0, 0.24, 1)';
+const names = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+const tones = ['#8a5a44', '#4f6a63', '#a5723a', '#5b5f7a', '#7b3f4a', '#6f7a4a', '#3f4a5a', '#9a8069', '#5a6b5a', '#7a5a6a'];
+const n = names.length;
+const pitch = 780;
+const projects = names.map((nm, i) => ({
+tone: tones[i],
+aria: 'Open [Project ' + nm + ']'
+}));
+const reel = names.map((nm) => ({ text: '[Project ' + nm + ']', meta: '[Year] · [Medium]' }));
+const track = (h) => 'display:flex; flex-direction:column; transform: translateY(' + (-cur * h) + 'px); transition: transform ' + ms + 'ms ' + ease + ';';
+return {
+projects: projects,
+reel: reel,
+titleTrack: track(76),
+metaTrack: track(22),
+labelStyle: blend ? 'color:#ffffff; mix-blend-mode:difference;' : 'color:#111111;',
+counter: String(cur + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0'),
+onScroll: (e) => {
+const t = e.currentTarget || e.target;
+const i = Math.max(0, Math.min(n - 1, Math.round(t.scrollTop / pitch)));
+if (i !== cur) this.setState({ cur: i });
+}
+};
+}
+}
+</script>
+</body>
+</html>

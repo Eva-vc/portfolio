@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Detail slides</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ffffff;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#111111}
+a{color:#111111;text-decoration:none}
+a:hover{color:#de0086}
+button{font-family:'Hanken Grotesk',system-ui,sans-serif;cursor:pointer}
+button:hover{color:#de0086}
+</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #111111;">
+
+<sc-for list="{{slides}}" as="s" hint-placeholder-count="3">
+<article aria-roledescription="slide" aria-label="{{ s.label }}" style="position: absolute; top: 0; left: 0; width: 1440px; height: 900px; overflow: hidden; background: {{ s.bg }}; {{ s.dyn }}">
+<div style="position: absolute; top: 140px; left: 470px; width: 500px; height: 620px; background: {{ s.tone }}; display: flex; align-items: flex-end; padding: 18px; box-sizing: border-box;">
+<span style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #ffffff; font-weight: 500;">[Artwork image]</span>
+</div>
+</article>
+</sc-for>
+
+<div style="position: absolute; left: 96px; top: 450px; transform: translateY(-50%); z-index: 90; pointer-events: none; {{labelStyle}}">
+<div style="height: 76px; overflow: hidden;">
+<div style="{{titleTrack}}">
+<sc-for list="{{reel}}" as="r" hint-placeholder-count="3">
+<div style="height: 76px; line-height: 76px; font-family: 'Newsreader', Georgia, serif; font-size: 68px; letter-spacing: -0.01em; white-space: nowrap;">{{ r.text }}</div>
+</sc-for>
+</div>
+</div>
+<div style="height: 22px; overflow: hidden; margin-top: 10px;">
+<div style="{{metaTrack}}">
+<sc-for list="{{reel}}" as="r" hint-placeholder-count="3">
+<div style="height: 22px; line-height: 22px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; white-space: nowrap;">{{ r.meta }}</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 30px 48px; box-sizing: border-box;">
+<a href="Overview.dc.html" style="font-family: 'Newsreader', Georgia, serif; font-size: 22px;">[Artist name]</a>
+<a href="Overview.dc.html" style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;">Overview</a>
+</div>
+
+<div style="position: absolute; left: 48px; right: 48px; bottom: 0; z-index: 100; display: flex; align-items: flex-end; justify-content: flex-end; gap: 36px; padding-bottom: 36px;">
+<div style="font-size: 11px; letter-spacing: 0.14em; color: #111111; font-weight: 500; width: 64px;">{{counter}}</div>
+<div style="display: flex; gap: 6px; width: 360px;">
+<sc-for list="{{segments}}" as="seg" hint-placeholder-count="4">
+<button aria-label="{{ seg.label }}" onClick="{{ seg.pick }}" style="flex-grow: 1; height: 44px; padding: 0; border: 0; background: transparent; display: flex; align-items: center;">
+<div style="width: 100%; height: 2px; background: {{ seg.color }};"></div>
+</button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 28px;">
+<button onClick="{{prev}}" style="min-height: 44px; padding: 0; border: 0; background: transparent; color: #111111; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;">Prev</button>
+<button onClick="{{next}}" style="min-height: 44px; padding: 0; border: 0; background: transparent; color: #111111; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;">Next</button>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"parallax":{"editor":"range","default":0,"min":0,"max":30,"step":1,"unit":"%","section":"Slide-over"},"duration":{"editor":"range","default":800,"min":200,"max":1600,"step":50,"unit":"ms","section":"Slide-over"},"accent":{"editor":"color","default":"#de0086","section":"Slide-over"},"textMs":{"editor":"range","default":700,"min":200,"max":1600,"step":50,"unit":"ms","section":"Roll text"},"blend":{"editor":"boolean","default":true,"section":"Roll text"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const cur = (this.state && this.state.cur) || 0;
+const par = Number(this.props.parallax ?? 0);
+const ms = Number(this.props.duration ?? 800);
+const textMs = Number(this.props.textMs ?? 700);
+const blend = this.props.blend ?? true;
+const accent = this.props.accent ?? '#de0086';
+const ease = 'cubic-bezier(0.76, 0, 0.24, 1)';
+const data = [
+{ text: '[Project one]', meta: '[Year] · [Medium]', bg: '#ffffff', tone: '#8a5a44' },
+{ text: '[Project one]', meta: '[Year] · [Medium]', bg: '#f4f0ea', tone: '#4f6a63' },
+{ text: '[Detail title A]', meta: '[Year] · [Medium] · [Size]', bg: '#ebe8e3', tone: '#a5723a' },
+{ text: '[Detail title A]', meta: '[Year] · [Medium] · [Size]', bg: '#f7f2f2', tone: '#5b5f7a' },
+{ text: '[Detail title B]', meta: '[Year] · [Medium] · [Size]', bg: '#efeeea', tone: '#7b3f4a' },
+{ text: '[Detail title B]', meta: '[Year] · [Medium] · [Size]', bg: '#ffffff', tone: '#6f7a4a' }
+];
+const n = data.length;
+const reel = [];
+const reelIdx = data.map((d) => {
+const last = reel[reel.length - 1];
+if (!last || last.text !== d.text || last.meta !== d.meta) reel.push({ text: d.text, meta: d.meta });
+return reel.length - 1;
+});
+const ri = reelIdx[cur];
+const track = (h) => 'display:flex; flex-direction:column; transform: translateY(' + (-ri * h) + 'px); transition: transform ' + textMs + 'ms ' + ease + ';';
+const go = (i) => this.setState({ cur: Math.max(0, Math.min(n - 1, i)) });
+const slides = data.map((d, i) => {
+const tx = i > cur ? 100 : (i === cur ? 0 : -par);
+return {
+bg: d.bg,
+tone: d.tone,
+label: (i + 1) + ' of ' + n,
+dyn: 'z-index:' + (i + 1) + '; transform: translateX(' + tx + '%); transition: transform ' + ms + 'ms ' + ease + '; box-shadow: -24px 0 60px rgba(0,0,0,0.08);'
+};
+});
+const segments = data.map((d, i) => ({
+label: 'Go to slide ' + (i + 1),
+color: i <= cur ? accent : '#cfcbc4',
+pick: () => go(i)
+}));
+return {
+slides: slides,
+segments: segments,
+reel: reel,
+titleTrack: track(76),
+metaTrack: track(22),
+labelStyle: blend ? 'color:#ffffff; mix-blend-mode:difference;' : 'color:#111111;',
+counter: String(cur + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0'),
+prev: () => go(cur - 1),
+next: () => go(cur + 1)
+};
+}
+}
+</script>
+</body>
+</html>

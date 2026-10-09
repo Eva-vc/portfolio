@@ -1,0 +1,89 @@
+:root {
+  /* Ground and ink */
+  --paper: #f1f1f1;
+  --ink: #1d1d1b;
+  --ink-soft: rgba(29, 29, 27, 0.68);
+  --ink-faint: rgba(29, 29, 27, 0.32);
+  --rule: rgba(29, 29, 27, 0.16);
+
+  /* Scale */
+  --fs: clamp(7px, calc(100vw / 1920 * 10), 11px);
+
+  /* Faces */
+  --serif: 'Newsreader', 'Times New Roman', Georgia, serif;
+  --sans: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+
+  --display-size: clamp(50px, 8rem, 80px);
+  --display-weight: 300;
+  --display-leading: 0.8;
+
+  --label-size: clamp(10px, 1.2rem, 12px);
+  --label-leading: 1.2;
+
+  --label-tracking: 0.04rem;
+
+  --body-size: clamp(15px, 1.6rem, 17px);
+  --body-leading: 1.5;
+
+  /* Space */
+  --gutter: 9rem;
+  --chrome-top: 4.4rem;
+
+  --label-left: 10rem;
+
+  --label-ratio: 480 / 170;
+  --label-gap: 1.4rem;
+
+  --label-tuck: 10rem;
+  --label-min: 30rem;
+  --label-max: 46vw;
+
+  --label-width-info: 44rem;
+
+  --label-image-gap: 4rem;
+  --label-image-min: 40rem;
+  --info-reserve: 7rem;
+
+  --work-height: min(69vh, 78vw);
+
+  --work-peek: 5vh;
+  --work-gap: max(3rem, calc((100dvh - var(--work-height)) / 2 - var(--work-peek)));
+
+  /* Motion */
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+
+  --sweep: cubic-bezier(0.77, 0, 0.175, 1);
+  --sweep-dur: 0.7s;
+
+  --slide-dur: 0.8s;
+  --slide-ease: var(--ease-move);
+
+  --ease-move: cubic-bezier(0.83, 0, 0.17, 1);
+  --ease-fade: cubic-bezier(0.45, 0, 0.55, 1);
+
+  --page-gap: 8rem;
+
+  --landscape-width: min(64vw, 1240px);
+
+  --vellum-blur: 0.4rem;
+  --vellum-milk: rgba(241, 241, 241, 0.34);
+}
+
+@media (max-width: 860px) {
+  :root {
+    --fs: clamp(9px, 2.6vw, 11px);
+    --gutter: 3rem;
+    --chrome-top: 2.6rem;
+    --label-left: 3rem;
+
+    --work-height: 60vh;
+    --display-size: clamp(28px, 7.4vw, 44px);
+    --label-tuck: 0rem;
+
+    --label-band: 170px;
+
+    --work-gap: max(2rem, calc((100dvh - var(--label-band) - var(--work-height)) / 2 - var(--work-peek)));
+
+    --landscape-width: 82vw;
+  }
+}

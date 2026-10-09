@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stack diagram</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ffffff;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#111111}
+</style>
+</helmet>
+<div style="width: 1440px; height: 860px; box-sizing: border-box; padding: 60px 60px 60px 60px; display: flex; flex-direction: column; gap: 56px; background: #ffffff; color: #111111; overflow: hidden;">
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #b8006f; font-weight: 600;">Stack diagram</div>
+<div style="font-family: 'Newsreader', Georgia, serif; font-size: 40px; line-height: 1.1;">Slide-over, not carousel</div>
+</div>
+
+<div style="display: flex; gap: 30px; align-items: flex-start;">
+<div style="width: 240px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: #006b3c;">Build this</div>
+<div style="font-size: 16px; line-height: 1.5;">B slides in over A. A keeps its exact position the whole time and is only uncovered again on Prev.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="position: relative; width: 340px; height: 210px; overflow: hidden; border: 1px solid #cfcbc4; background: #f4f0ea;">
+<div style="position: absolute; left: 50px; top: 78px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 44px;">A</div>
+</div>
+<div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6b6963;">1 · At rest</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="position: relative; width: 340px; height: 210px; overflow: hidden; border: 1px solid #cfcbc4; background: #f4f0ea;">
+<div style="position: absolute; left: 50px; top: 78px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 44px;">A</div>
+<div style="position: absolute; left: 150px; top: 0; width: 190px; height: 210px; background: #dcd7cf; box-shadow: -24px 0 40px rgba(0,0,0,0.12);">
+<div style="position: absolute; left: 70px; top: 78px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 44px;">B</div>
+<div style="position: absolute; left: 14px; top: 20px; font-size: 22px; color: #de0086;">&#8592;</div>
+</div>
+</div>
+<div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6b6963;">2 · During: B covers A, A unmoved</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="position: relative; width: 340px; height: 210px; overflow: hidden; border: 1px solid #cfcbc4; background: #dcd7cf;">
+<div style="position: absolute; left: 50px; top: 78px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 44px;">B</div>
+</div>
+<div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6b6963;">3 · Done: B on top, A still below</div>
+</div>
+</div>
+
+<div style="display: flex; gap: 30px; align-items: flex-start;">
+<div style="width: 240px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px;">
+<div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: #b3261e;">Not this</div>
+<div style="font-size: 16px; line-height: 1.5;">A carousel track: A and B travel together, A pushed out to the left. This is what we are avoiding.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="position: relative; width: 340px; height: 210px; overflow: hidden; border: 1px solid #cfcbc4; background: #f4f0ea;">
+<div style="position: absolute; left: 50px; top: 78px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 44px;">A</div>
+</div>
+<div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6b6963;">1 · At rest</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="position: relative; width: 340px; height: 210px; overflow: hidden; border: 1px solid #cfcbc4; background: #ffffff;">
+<div style="position: absolute; left: -190px; top: 0; width: 340px; height: 210px; background: #f4f0ea;">
+<div style="position: absolute; left: 50px; top: 78px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 44px; color: #b3261e;">A</div>
+</div>
+<div style="position: absolute; left: 150px; top: 0; width: 340px; height: 210px; background: #dcd7cf;">
+<div style="position: absolute; left: 50px; top: 78px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 44px;">B</div>
+</div>
+</div>
+<div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6b6963;">2 · During: A is dragged away too</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="position: relative; width: 340px; height: 210px; overflow: hidden; border: 1px solid #cfcbc4; background: #dcd7cf;">
+<div style="position: absolute; left: 50px; top: 78px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 44px;">B</div>
+</div>
+<div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #6b6963;">3 · Done</div>
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":860}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>
