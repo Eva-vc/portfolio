@@ -90,6 +90,14 @@ canvas[role='img']:not([data-ready]) {
   position: relative;
   width: 100%;
   height: 100dvh;
+
+  /* Shared by the PDF label and the wide pages that make room for it. */
+  --label-image-width: max(
+    var(--label-image-min),
+    calc(
+      (100vw - var(--frame-width, 40vw)) / 3 - var(--label-image-gap) - var(--label-left)
+    )
+  );
 }
 
 .main {
@@ -195,18 +203,14 @@ canvas[role='img']:not([data-ready]) {
 }
 
 .label--image {
-  --label-image-width: max(
-    var(--label-image-min),
-    calc(
-      (100vw - var(--frame-width, 40vw)) / 3 - var(--label-image-gap) - var(--label-left)
-    )
-  );
   width: var(--label-image-width);
 
+  /* Beside the first page, or further left when the current page is wider. */
   left: max(
     var(--label-left),
     calc(
-      (100vw - var(--frame-width, 40vw)) / 2 - var(--label-image-gap) - var(--label-image-width)
+      (100vw - max(var(--frame-width, 40vw), var(--page-width, 0px))) / 2
+        - var(--label-image-gap) - var(--label-image-width)
     )
   );
   height: var(--frame-height, var(--work-height));
@@ -214,6 +218,11 @@ canvas[role='img']:not([data-ready]) {
 
   top: calc(50% - var(--frame-height, var(--work-height)) / 2);
   transform: none;
+}
+
+/* Within a project the label steps aside in time with the pages. */
+.app--project .label--image {
+  transition: left var(--slide-dur) var(--slide-ease);
 }
 
 .label__image {
@@ -285,6 +294,7 @@ canvas[role='img']:not([data-ready]) {
 }
 
 .work {
+  position: relative;
   flex-shrink: 0;
   height: var(--work-height);
 }
@@ -305,6 +315,30 @@ canvas[role='img']:not([data-ready]) {
 
 .work__link:hover .work__image {
   opacity: 0.82;
+}
+
+/* The first work's invitation, hung off its right edge. */
+.work__hint {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  white-space: nowrap;
+  color: var(--ink-soft);
+}
+
+.work__hint-arrow {
+  width: 2.2rem;
+  min-width: 14px;
+  margin-right: 0.9rem;
+  overflow: visible;
+}
+
+.work__hint-arrow path {
+  vector-effect: non-scaling-stroke;
 }
 
 /* Counter */
@@ -367,6 +401,22 @@ canvas[role='img']:not([data-ready]) {
   aspect-ratio: var(--ratio);
 }
 
+/* A wide page leaves less room at its left than the label needs even
+   at the label's leftmost, so it rests right of centre by the shortfall
+   (never closer to the right edge than the gutter). */
+.slide__image[data-orientation='landscape'] {
+  --page-left: calc(
+    (100vw - min(var(--landscape-width), var(--work-height) * var(--ratio))) / 2
+  );
+  translate: min(
+    max(
+      0px,
+      var(--label-left) + var(--label-image-width) + var(--label-image-gap) - var(--page-left)
+    ),
+    max(0px, var(--page-left) - var(--gutter))
+  );
+}
+
 /* See-through PDF: matte film */
 .slide--seethrough canvas.slide__image,
 .work--seethrough canvas.work__image,
@@ -387,6 +437,16 @@ canvas[role='img']:not([data-ready]) {
   pointer-events: auto;
 
   cursor: zoom-in;
+}
+
+/* The focus ring follows the picture, which may rest off-centre. */
+.slide__expand:focus-visible {
+  outline: none;
+}
+
+.slide__expand:focus-visible .slide__image {
+  outline: 1px solid var(--ink);
+  outline-offset: 5px;
 }
 
 .expand {
@@ -674,6 +734,28 @@ canvas[role='img']:not([data-ready]) {
   .work__image,
   .slide__image {
     max-width: 82vw;
+  }
+
+  /* The label has its own band here, so wide pages stay centred. */
+  .slide__image[data-orientation='landscape'] {
+    translate: none;
+  }
+
+  /* No room beside a work here: the hint drops under its right corner. */
+  .work__hint {
+    left: auto;
+    right: 0;
+    top: 100%;
+    transform: none;
+    padding: 1rem 0 0;
+  }
+
+  /* The work is above the hint here, so the arrow points up at it. */
+  .work__hint-arrow {
+    width: 14px;
+    min-width: 0;
+    margin-right: 0.6rem;
+    transform: rotate(90deg);
   }
 
   .info__panel {

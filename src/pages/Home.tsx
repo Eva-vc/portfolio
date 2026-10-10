@@ -96,6 +96,15 @@ export default function Home() {
                 transparent={artwork.slides[0].seeThrough}
                 film={artwork.slides[0].seeThrough}
               />
+              {/* Whichever work is first in the run carries the hint. */}
+              {i === 0 && (
+                <span className="work__hint" aria-hidden="true">
+                  <svg className="work__hint-arrow" viewBox="0 0 22 9" fill="none">
+                    <path d="M22 4.5H1M4.5 1 1 4.5 4.5 8" stroke="currentColor" />
+                  </svg>
+                  Click me
+                </span>
+              )}
             </Link>
           </article>
         ))}

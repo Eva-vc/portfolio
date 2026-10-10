@@ -89,33 +89,51 @@ export default function Project({ artworkIndex }: { artworkIndex: number }) {
 
   // Page centres in a flat row, one `--page-gap` apart (read in px via
   // the viewer's column-gap). Layout widths ignore animation transforms.
+  // A wide page rests off-centre to clear the label (its CSS `translate`),
+  // so its stop is moved by the same amount to keep the gaps even.
   useEffect(() => {
     const viewer = viewerRef.current
     if (!viewer) return
 
     const measure = () => {
       const gap = parseFloat(getComputedStyle(viewer).columnGap) || 0
-      const widths = slideRefs.current.map(
-        (el) => el?.querySelector<HTMLElement>('.slide__image')?.offsetWidth ?? 0,
+      const images = slideRefs.current.map(
+        (el) => el?.querySelector<HTMLElement>('.slide__image') ?? null,
       )
+      const widths = images.map((img) => img?.offsetWidth ?? 0)
+      const shifts = images.map((img) => (img && parseFloat(getComputedStyle(img).translate)) || 0)
       const stops: number[] = []
       widths.forEach((w, i) => {
-        stops.push(i === 0 ? 0 : stops[i - 1] + widths[i - 1] / 2 + gap + w / 2)
+        stops.push(
+          i === 0
+            ? 0
+            : stops[i - 1] + widths[i - 1] / 2 + gap + w / 2 + shifts[i - 1] - shifts[i],
+        )
       })
       stopsRef.current = stops
       apply()
     }
 
-    measure()
-    const observer = new ResizeObserver(measure)
+    // Measured again a frame later: the shift depends on the label's
+    // frame variables, which are published after this observer runs.
+    let frame = 0
+    const remeasure = () => {
+      measure()
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(measure)
+    }
+
+    remeasure()
+    const observer = new ResizeObserver(remeasure)
     slideRefs.current.forEach((el) => {
       const img = el?.querySelector('.slide__image')
       if (img) observer.observe(img)
     })
-    window.addEventListener('resize', measure)
+    window.addEventListener('resize', remeasure)
     return () => {
+      cancelAnimationFrame(frame)
       observer.disconnect()
-      window.removeEventListener('resize', measure)
+      window.removeEventListener('resize', remeasure)
     }
   }, [artworkIndex, count, apply])
 

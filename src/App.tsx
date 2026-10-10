@@ -75,7 +75,7 @@ function Shell() {
         setInfoPanel,
       }}
     >
-      <div className={'app' + (onInfo ? ' app--info' : '')}>
+      <div className={'app' + (onInfo ? ' app--info' : '') + (onProject ? ' app--project' : '')}>
         <Header onInfo={onInfo} />
         <Label values={label.values} index={label.index} />
         <main className="main">

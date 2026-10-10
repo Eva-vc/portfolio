@@ -47,14 +47,14 @@ export const artworks: Artwork[] = [
     label: `${dir}/Extra coloured cards-5.pdf`,
     title: ['[Project one]'],
     meta: '[Year] · [Medium]',
-    slides: [{ src: `${dir}/project_knit_1.pdf`, label: `${dir}/Extra coloured cards-6.pdf`}, { src: `${dir}/project_knit_2.pdf`}],
+    slides: [{ src: `${dir}/Portfolio v3 graduation projects v3-1.pdf`, label: `${dir}/Extra coloured cards-6.pdf`}, { src: `${dir}/Portfolio v3 graduation projects v3-2.pdf`}, {src: `${dir}/55486863081_fb7b4f7af6_o.jpg`, fullscreen: true}],
   },
   {
     slug: 'project-ski',
     label: `${dir}/Extra coloured cards-3.pdf`,
     title: ['[Project one]'],
     meta: '[Year] · [Medium]',
-    slides: [{ src: `${dir}/project_ski_1.pdf`, label: `${dir}/Extra coloured cards-4.pdf`}, { src: `${dir}/project_ski_2.pdf`}, {src: `${dir}/project_ski_3.pdf`}],
+    slides: [{ src: `${dir}/Portfolio v3 graduation projects v3-3.pdf`, label: `${dir}/Extra coloured cards-4.pdf`}, { src: `${dir}/Portfolio v3 graduation projects v3-4.pdf`}, {src: `${dir}/project_ski_3.pdf`}],
   },
   {
     slug: 'project-two',
@@ -130,7 +130,10 @@ export const artworks: Artwork[] = [
     meta: '[Year] · [Medium]',
     slides: [
       { src: `${dir}/project_8_slide_1.pdf` },
-      { src: `${dir}/project_8_slide_2.pdf`, label: `${dir}/label_8_achter.pdf` },
+      { src: `${dir}/project_8_slide_2.pdf`, label: `${dir}/label_8_achter.pdf`},
+      {src: `${dir}/Portfolio just pages without numbers-1-18.pdf`},
+      {src: `${dir}/Portfolio just pages without numbers-1-19.pdf`},
+      {src: `${dir}/Portfolio just pages without numbers-1-20.pdf`}
     ],
   },
 ]
